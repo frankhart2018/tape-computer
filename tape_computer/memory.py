@@ -35,7 +35,10 @@ class Memory:
         obj, size = class_obj.load(
             b"".join(self.memory[self.iterator : self.iterator + bytes_requested])
         )
-        self.iterator += size
+
+        # Tape pointer moves one byte at a time, deal with it :P
+        for _ in range(size):
+            self.iterator += 1
         value = obj.byte
 
         return value
@@ -44,4 +47,8 @@ class Memory:
         if loc >= len(self.memory):
             raise DataTypeError("Invalid memory location")
 
-        self.iterator = loc
+        # I could've just assigned the loc to self.iterator
+        # but then how'd you get the feel of the tape pointer moving?
+        diff = self.iterator - loc
+        for _ in range(diff):
+            self.iterator -= 1
