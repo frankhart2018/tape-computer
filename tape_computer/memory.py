@@ -1,6 +1,6 @@
 import importlib
 
-from errors import DataTypeError, MemoryError
+from .errors import DataTypeError, MemoryError
 
 
 class Memory:
@@ -9,7 +9,7 @@ class Memory:
         self.iterator = 0
 
     def __get_class_obj(self, dtype: str) -> any:
-        module = importlib.import_module(f"unsigned_types")
+        module = importlib.import_module(f"tape_computer.unsigned_types")
         class_obj = getattr(module, dtype.upper())
 
         return class_obj

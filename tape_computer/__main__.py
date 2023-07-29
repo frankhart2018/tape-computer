@@ -1,7 +1,7 @@
 import argparse
 
-from processor import Processor
-from memory import Memory
+from .processor import Processor
+from .memory import Memory
 
 
 def main():
@@ -19,7 +19,3 @@ def main():
     while val := processor.execnext():
         if not val:
             break
-
-
-if __name__ == "__main__":
-    main()

@@ -1,7 +1,7 @@
 import re
 
-from errors import ParseError
-from memory import Memory
+from .errors import ParseError
+from .memory import Memory
 
 
 class Processor:

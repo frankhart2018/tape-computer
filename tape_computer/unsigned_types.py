@@ -1,6 +1,7 @@
 from typing import Union
-from errors import DataTypeError
-from utils import is_numeric
+
+from .errors import DataTypeError
+from .utils import is_numeric, _range_check
 
 
 def _get_int_from_str(value: str, dtype: str) -> int:
@@ -10,11 +11,6 @@ def _get_int_from_str(value: str, dtype: str) -> int:
 
     value = int(value) if is_str else value
     return value
-
-
-def _range_check(value: int, low: int, max_bits: int, dtype: str) -> None:
-    if value < low or value > (1 << max_bits) - 1:
-        raise DataTypeError(f"Invalid {dtype} value: {value}")
 
 
 class UnsignedType:
