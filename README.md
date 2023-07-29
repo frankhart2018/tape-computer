@@ -10,7 +10,7 @@ A fun project with a simple opcode processor and a tape memory.
 user@programmer~:$ pip install git+https://github.com/frankhart2018/tape-computer.git
 ```
 
-1. Write a tape program into any file, let's call it `program.tape`:
+2. Write a tape program into any file, let's call it `program.tape`:
 
 ```
 STORE 12:u8
@@ -33,7 +33,7 @@ MOVE 8
 SHOW u64
 ```
 
-2. Run it:
+3. Run it:
 
 ```bash
 user@programmer~:$ tapec program.tape
