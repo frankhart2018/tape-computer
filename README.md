@@ -32,3 +32,7 @@ SHOW u64
 ```bash
 user@programmer~:$ python . program.tape
 ```
+
+## License
+
+This project is licensed under the [MIT License](https://github.com/frankhart2018/tape-computer/blob/master/LICENSE.md)
