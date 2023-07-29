@@ -4,6 +4,12 @@ A fun project with a simple opcode processor and a tape memory.
 
 ## Usage
 
+1. Install the package:
+
+```bash
+user@programmer~:$ pip install git+https://github.com/frankhart2018/tape-computer.git
+```
+
 1. Write a tape program into any file, let's call it `program.tape`:
 
 ```
@@ -30,7 +36,7 @@ SHOW u64
 2. Run it:
 
 ```bash
-user@programmer~:$ python . program.tape
+user@programmer~:$ tapec program.tape
 ```
 
 ## License
