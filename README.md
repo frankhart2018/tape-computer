@@ -1,6 +1,6 @@
 # Tape Computer
 
-A fun project with a simple opcode processor and a tape memory.
+A fun project with a näive opcode processor and a tape memory.
 
 ## Usage
 
