@@ -19,6 +19,10 @@ class Processor:
 
         return self.exec_instruction(instruction)
 
+    def __verify_instruction(self, instruction: str, opcode: str, regex: str):
+        if not re.match(regex, instruction):
+            raise ParseError(f"Invalid {opcode} instruction: {instruction}")
+
     def exec_instruction(self, instruction: str) -> bool:
         opcode, args = instruction.split(" ", 1)
         opcode = opcode.upper()
@@ -27,25 +31,24 @@ class Processor:
 
         if opcode == "STORE":
             store_regex = r"^STORE [-]?[0-9]+:[ui](?:8|16|32|64)"
-            if not re.match(store_regex, instruction):
-                raise ParseError(f"Invalid STORE instruction: {instruction}")
+            self.__verify_instruction(instruction, opcode, store_regex)
 
             value, dtype = args.split(":")
             self.memory.register(int(value), dtype)
         elif opcode == "SHOW":
             show_regex = r"^SHOW [ui](?:8|16|32|64)"
-            if not re.match(show_regex, instruction):
-                raise ParseError(f"Invalid SHOW instruction: {instruction}")
+            self.__verify_instruction(instruction, opcode, show_regex)
 
             dtype = args
             value = self.memory.load(dtype)
             print(value)
         elif opcode == "MOVE":
             move_regex = r"^MOVE [0-9]+"
-            if not re.match(move_regex, instruction):
-                raise ParseError(f"Invalid MOVE instruction: {instruction}")
+            self.__verify_instruction(instruction, opcode, move_regex)
 
             loc = int(args)
             self.memory.move(loc)
+        else:
+            raise ParseError(f"Unknown instruction: {instruction}")
 
         return return_val
