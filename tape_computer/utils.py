@@ -6,9 +6,10 @@ def is_numeric(value: str) -> bool:
 
 
 def range_check(value: int, min_bits: int, max_bits: int, dtype: str) -> None:
-    low_expr = (-1 * (1 << min_bits)) if min_bits > 1 else min_bits
+    low_range = (-1 * (1 << (min_bits - 1))) if min_bits > 1 else min_bits
+    high_range = (1 << (max_bits - 1)) - 1 if min_bits > 1 else (1 << max_bits) - 1
 
-    if value < low_expr or value > (1 << max_bits) - 1:
+    if value < low_range or value > high_range:
         raise DataTypeError(f"Invalid {dtype} value: {value}")
 
 
