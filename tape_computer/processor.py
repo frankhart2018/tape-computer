@@ -2,6 +2,7 @@ import re
 
 from .errors import ParseError
 from .memory import Memory
+from .utils import get_int_from_str
 
 
 class Processor:
@@ -34,7 +35,7 @@ class Processor:
             self.__verify_instruction(instruction, opcode, store_regex)
 
             value, dtype = args.split(":")
-            self.memory.register(int(value), dtype)
+            self.memory.register(get_int_from_str(value), dtype)
         elif opcode == "SHOW":
             show_regex = r"^SHOW [ui](?:8|16|32|64)"
             self.__verify_instruction(instruction, opcode, show_regex)
