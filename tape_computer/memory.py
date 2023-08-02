@@ -9,7 +9,12 @@ class Memory:
         self.iterator = 0
 
     def __get_class_obj(self, dtype: str) -> any:
-        module = importlib.import_module(f"tape_computer.unsigned_types")
+        if dtype.startswith("u"):
+            module_name = "unsigned_types"
+        elif dtype.startswith("i"):
+            module_name = "signed_types"
+
+        module = importlib.import_module(f"tape_computer.{module_name}")
         class_obj = getattr(module, dtype.upper())
 
         return class_obj
@@ -32,12 +37,12 @@ class Memory:
 
         class_obj = self.__get_class_obj(dtype)
         bytes_requested = class_obj.request_bytes()
-        obj, size = class_obj.load(
+        obj = class_obj.load(
             b"".join(self.memory[self.iterator : self.iterator + bytes_requested])
         )
 
         # Tape pointer moves one byte at a time, deal with it :P
-        for _ in range(size):
+        for _ in range(bytes_requested):
             self.iterator += 1
         value = obj.byte
 
