@@ -39,6 +39,14 @@ SHOW u64
 user@programmer~:$ tapec program.tape
 ```
 
+## Opcode Reference
+
+- `STORE <value>:<type>`: Stores a value of a given type into the tape memory (supported types: `u8`, `u16`, `u32`, `u64`, `i8`, `i16`, `i32`, `i64`). The value is stored at the current tape position.
+
+- `MOVE <index>`: Moves the tape position to the given index (0-based).
+
+- `SHOW <type>`: Shows the value at the current tape position of the given type (the type is used to determine the number of bytes to read).
+
 ## License
 
 This project is licensed under the [MIT License](https://github.com/frankhart2018/tape-computer/blob/master/LICENSE.md)
