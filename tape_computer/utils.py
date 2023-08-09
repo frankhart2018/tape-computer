@@ -2,7 +2,7 @@ from .errors import DataTypeError
 
 
 def is_numeric(value: str) -> bool:
-    return all(x.isdigit() for x in value)
+    return all(x.isdigit() for x in value if x != "-")
 
 
 def range_check(value: int, min_bits: int, max_bits: int, dtype: str) -> None:

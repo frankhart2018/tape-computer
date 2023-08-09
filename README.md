@@ -47,6 +47,8 @@ user@programmer~:$ tapec program.tape
 
 - `SHOW <type>`: Shows the value at the current tape position of the given type (the type is used to determine the number of bytes to read).
 
+- `ADD <operand_1_type> <operand_2_type> <result_type> [<index>]`: Adds the values at the current tape position of the given types and stores the result at the current tape position of the given result type if index is not given. If index is given, the result is stored at the given index.
+
 ## License
 
 This project is licensed under the [MIT License](https://github.com/frankhart2018/tape-computer/blob/master/LICENSE.md)

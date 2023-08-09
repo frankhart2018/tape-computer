@@ -48,12 +48,15 @@ class Memory:
 
         return value
 
-    def move_ptr(self, loc: int) -> None:
-        if loc >= len(self.memory):
+    def move_ptr(self, loc: int, force_fill: bool = False) -> None:
+        if loc >= len(self.memory) and not force_fill:
             raise DataTypeError("Invalid memory location")
+        elif loc >= len(self.memory) and force_fill:
+            self.memory.extend([bytes([0]) for _ in range(loc - len(self.memory) + 1)])
 
         # I could've just assigned the loc to self.iterator
         # but then how'd you get the feel of the tape pointer moving?
-        diff = self.iterator - loc
+        diff = self.iterator - loc if self.iterator > loc else loc - self.iterator
+        sign = 1 if self.iterator > loc else -1
         for _ in range(diff):
-            self.iterator -= 1
+            self.iterator -= 1 * sign
