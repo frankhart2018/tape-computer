@@ -48,7 +48,7 @@ class Memory:
 
         return value
 
-    def move(self, loc: int) -> None:
+    def move_ptr(self, loc: int) -> None:
         if loc >= len(self.memory):
             raise DataTypeError("Invalid memory location")
 

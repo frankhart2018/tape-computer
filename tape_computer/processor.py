@@ -48,7 +48,7 @@ class Processor:
             self.__verify_instruction(instruction, opcode, move_regex)
 
             loc = int(args)
-            self.memory.move(loc)
+            self.memory.move_ptr(loc)
         else:
             raise ParseError(f"Unknown instruction: {instruction}")
 
