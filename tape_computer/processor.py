@@ -71,6 +71,14 @@ class Processor:
             if loc is not None:
                 self.memory.move_ptr(int(loc), force_fill=True)
             self.memory.register(get_int_from_str(res, res_dtype), res_dtype)
+        elif opcode == "COPY":
+            copy_regex = r"^COPY [ui](?:8|16|32|64) [0-9]+"
+            self.__verify_instruction(instruction, opcode, copy_regex)
+
+            dtype, loc = args.split(" ")
+            value = self.memory.load(dtype)
+            self.memory.move_ptr(int(loc), force_fill=True)
+            self.memory.register(value, dtype)
         else:
             raise ParseError(f"Unknown instruction: {instruction}")
 
