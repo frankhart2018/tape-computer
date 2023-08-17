@@ -1,15 +1,20 @@
 import re
+from typing import Optional
 
 from .errors import ParseError
 from .memory import Memory
 from .utils import get_int_from_str
+from .dumper import Dumper
 
 
 class Processor:
-    def __init__(self, memory: Memory, prog: list[str]) -> None:
+    def __init__(
+        self, memory: Memory, prog: list[str], dumper: Optional[Dumper] = None
+    ) -> None:
         self.memory = memory
         self.prog = prog
         self.prog_iterator = -1
+        self.dumper = dumper
 
     def execnext(self) -> bool:
         if self.prog_iterator + 1 >= len(self.prog):
@@ -17,18 +22,18 @@ class Processor:
 
         self.prog_iterator += 1
         instruction = self.prog[self.prog_iterator]
+        self.dumper is not None and self.dumper.register_instruction(instruction)
 
-        return self.exec_instruction(instruction)
+        self.exec_instruction(instruction)
+        return True
 
     def __verify_instruction(self, instruction: str, opcode: str, regex: str):
         if not re.match(regex, instruction):
             raise ParseError(f"Invalid {opcode} instruction: {instruction}")
 
-    def exec_instruction(self, instruction: str) -> bool:
+    def exec_instruction(self, instruction: str) -> None:
         opcode, args = instruction.split(" ", 1)
         opcode = opcode.upper()
-
-        return_val = True
 
         if opcode == "STORE":
             store_regex = r"^STORE [-]?[0-9]+:[ui](?:8|16|32|64)"
@@ -81,5 +86,3 @@ class Processor:
             self.memory.register(value, dtype)
         else:
             raise ParseError(f"Unknown instruction: {instruction}")
-
-        return return_val

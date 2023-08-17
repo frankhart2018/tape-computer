@@ -1,12 +1,15 @@
 import importlib
+from typing import Optional
 
 from .errors import DataTypeError, MemoryError
+from .dumper import Dumper
 
 
 class Memory:
-    def __init__(self) -> None:
+    def __init__(self, dumper: Optional[Dumper] = None) -> None:
         self.memory = []
         self.iterator = 0
+        self.dumper = dumper
 
     def __get_class_obj(self, dtype: str) -> any:
         if dtype.startswith("u"):
@@ -31,6 +34,9 @@ class Memory:
             else:
                 self.memory[self.iterator - 1] = byte_val
 
+        self.dumper is not None and self.dumper.register_memory(self.memory)
+        self.dumper is not None and self.dumper.register_pointer(self.iterator)
+
     def load(self, dtype: str) -> int:
         if self.iterator >= len(self.memory):
             raise MemoryError("Illegal memory access")
@@ -46,6 +52,8 @@ class Memory:
             self.iterator += 1
         value = obj.byte
 
+        self.dumper is not None and self.dumper.register_pointer(self.iterator)
+
         return value
 
     def move_ptr(self, loc: int, force_fill: bool = False) -> None:
@@ -60,3 +68,5 @@ class Memory:
         sign = 1 if self.iterator > loc else -1
         for _ in range(diff):
             self.iterator -= 1 * sign
+
+        self.dumper is not None and self.dumper.register_pointer(self.iterator)
